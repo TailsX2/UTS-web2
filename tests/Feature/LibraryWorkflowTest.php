@@ -6,12 +6,42 @@ use App\Models\Book;
 use App\Models\Loan;
 use App\Models\Member;
 use App\Models\User;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class LibraryWorkflowTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function test_training_seeder_uses_fictional_data_and_is_idempotent(): void
+    {
+        $this->seed(DatabaseSeeder::class);
+        $this->seed(DatabaseSeeder::class);
+
+        $this->assertDatabaseCount('books', 4);
+        $this->assertDatabaseCount('members', 3);
+        $this->assertDatabaseCount('loans', 2);
+        $this->assertDatabaseHas('books', [
+            'isbn' => '9780000000101',
+            'title' => 'Peta Hujan Kota Arunika',
+            'author' => 'Mira Senandika',
+            'stock' => 4,
+        ]);
+        $this->assertDatabaseHas('members', [
+            'member_number' => 'AG-0001',
+            'name' => 'Aksa Wiratama',
+        ]);
+        $this->assertDatabaseHas('loans', [
+            'status' => 'dipinjam',
+            'returned_at' => null,
+        ]);
+
+        $loan = Loan::query()->with(['book', 'member', 'user'])->where('status', 'dipinjam')->firstOrFail();
+        $this->assertSame('Peta Hujan Kota Arunika', $loan->book->title);
+        $this->assertSame('Aksa Wiratama', $loan->member->name);
+        $this->assertSame('Staf Pustakawan', $loan->user->name);
+    }
 
     public function test_guest_session_endpoint_returns_a_null_user(): void
     {

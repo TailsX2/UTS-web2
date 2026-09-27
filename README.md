@@ -2,6 +2,36 @@
 
 Aplikasi sirkulasi perpustakaan untuk mengelola koleksi buku, anggota, peminjaman, dan pengembalian. Stok diperbarui oleh server saat transaksi disimpan; browser bukan sumber kebenaran stok.
 
+## Persiapan UTS
+
+Pengerjaan berada pada branch `uts`, berdasarkan branch `main`. Tag rilis yang direncanakan adalah `uts-v1.0.0`; buat tag setelah pengujian, build frontend, migrasi, dan demo diperiksa pada environment bersih. Repository belum merekam hash upstream starter secara terpisah. Provenance yang tersedia: starter Laravel resmi `laravel/laravel` (tercatat sebagai nama proyek Composer, Laravel `^13.17` pada baseline); hash commit root/baseline repository adalah `79cee2a72bc04a93b996acb7102845657ad6c710`.
+
+Default `.env.example` menargetkan database latihan MySQL lokal `uts_web2`; file `.env` lokal diabaikan Git dan dapat memakai konfigurasi berbeda. Template hanya berisi nilai contoh: `APP_KEY` dan password kosong, bukan kredensial. Seeder menyediakan dua role demo, buku dan anggota fiktif, serta satu pinjaman aktif dan satu transaksi yang sudah dikembalikan untuk menunjukkan relasi/status. Test feature memakai SQLite in-memory. Jangan memakai database produksi untuk demo atau menjalankan perintah `migrate:fresh` pada database yang berisi data yang perlu dipertahankan.
+
+### Versi Yang Diverifikasi
+
+Versi berikut adalah versi environment pengembangan saat dokumentasi disiapkan. `composer.lock` dan `package-lock.json` mengunci versi dependensi transitif.
+
+| Software / dependensi | Versi |
+| --- | --- |
+| PHP | 8.3.20 (syarat proyek `^8.3`) |
+| Composer | 2.8.8 |
+| Laravel Framework | 13.33.0 |
+| Laravel Tinker | 3.0.2 |
+| Faker | 1.24.1 |
+| Laravel Boost (dev) | 2.10.0 |
+| Laravel Pail / PAO / Pint (dev) | 1.2.7 / 1.1.5 / 1.32.1 |
+| PHPUnit / Mockery / Collision (dev) | 12.5.36 / 1.6.15 / 8.9.5 |
+| Node.js | 22.15.0 (Vite memerlukan Node 20.19+ atau 22.12+) |
+| npm | 10.9.2 |
+| Vue | 3.5.43 |
+| Vite | 8.3.1 |
+| Vue Vite plugin | 6.0.9 |
+| Laravel Vite plugin | 3.2.0 |
+| Tailwind CSS / Tailwind Vite plugin | 4.3.3 / 4.3.3 |
+| Concurrently | 10.0.5 |
+| MySQL (database latihan lokal) | 8.0.42 |
+
 ## Menjalankan Lokal
 
 Prasyarat: PHP 8.3+, Composer, Node.js 22.12+, npm, ekstensi PDO MySQL, dan PDO SQLite untuk test suite. Jalankan dari folder `backend`.
